@@ -34,7 +34,6 @@ def main(args):
 
     print(message)
     print(response)
-    
 
 ###############################################################################
 # GET MESSAGE FUNCTIONS
