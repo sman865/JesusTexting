@@ -24,7 +24,6 @@ def main(args):
 
     # Get main body of the message.
     message += getBody(args[0])
-    print(message)
 
     # Send the message
     client = boto3.client('sns')
@@ -32,6 +31,8 @@ def main(args):
         PhoneNumber = "+xxxxxxxxxxx",
         Message = message
     )
+
+    print(message)
     print(response)
     
 
