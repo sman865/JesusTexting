@@ -6,7 +6,8 @@ from random import randint
 try:
     import boto3
 except ImportError:
-    sys.stderr.write("ERROR: Please install boto3 from https://github.com/boto/boto3\n")
+    msg = "ERROR: Please install boto3 from: https://github.com/boto/boto3"
+    sys.stderr.write(msg + "\n")
 
 ###############################################################################
 # MAIN FUNCTION
@@ -25,10 +26,19 @@ def main(args):
     # Get main body of the message.
     message += getBody(args[0])
 
-    # Send the message
-    client = boto3.client('sns')
+    # Send the message to one of the following:
+    # 1. PhoneNumber (make sure to use the correct format, E.164)
+    # 2. TopicArn
+    # 3. TargetArn
+    #
+    # Note that these are all mutually exclusive, so you'll have to uncomment
+    # one at the most.
+    #
+    client = boto3.client("sns")
     response = client.publish (
-        PhoneNumber = "+xxxxxxxxxxx",
+        #PhoneNumber = "+xxxxxxxxxxx",
+        #TopicArn = "",
+        #TargetArn = "",
         Message = message
     )
 
@@ -125,7 +135,7 @@ def getPrayer():
         "america",
         "the world",
         "your coworkers",
-        "your wife",
+        "your spouse",
         "your spiritual well-being",
         "your church",
     )
@@ -184,9 +194,11 @@ def getDeed():
     ret = messages[rand] + " "
 
     messages = (
-        "your wife",
+        "your spouse",
         "a coworker",
         "a stranger",
+        "a friend",
+        "a family member",
     )
 
     rand = randint(0, len(messages)-1)
