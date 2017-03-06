@@ -9,6 +9,10 @@ except ImportError:
     msg = "ERROR: Please install boto3 from: https://github.com/boto/boto3"
     sys.stderr.write(msg + "\n")
 
+# Global variables:
+msg    = 'message'
+weight = 'weight'
+
 ###############################################################################
 # MAIN FUNCTION
 # 1. Generates a message.
@@ -50,16 +54,13 @@ def main(args):
 ###############################################################################
 
 def getGreeting():
-    greetings = (
-        "Good morning! ",
-        "Wake up! ",
-        "Sup. ",
-        "Buenos Dias. ",
-        "",
-    )
-
-    rand = randint(0, len(greetings)-1)
-    return greetings[rand]
+    return getRandMessage((
+        { msg : "Good morning! ", weight : 1 },
+        { msg : "Wake up! "     , weight : 1 },
+        { msg : "Sup. "         , weight : 1 },
+        { msg : "Buenos Dias. " , weight : 1 },
+        { msg : ""              , weight : 1 },
+    ))
 
 def getBody(arg):
     try:
@@ -89,15 +90,12 @@ def getBody(arg):
 
 def getReading():
     # Beginning:
-    messages = (
-        "You will be reading",
-        "You get to read",
-        "Please read",
-        "Do yourself a favor and read",
-    )
-
-    rand = randint(0, len(messages)-1)
-    ret = messages[rand]
+    ret = getRandMessage((
+        { msg : "You will be reading"         , weight : 3 },
+        { msg : "You get to read"             , weight : 3 },
+        { msg : "Please read"                 , weight : 3 },
+        { msg : "Do yourself a favor and read", weight : 1 },
+    ))
 
     # Middle:
     (name, chapter) = getChapter()
@@ -109,128 +107,108 @@ def getReading():
     ret += " " + name + " " + chapter + " "
 
     # End:
-    messages = (
-        "today",
-        "this fine morning",
-    )
+    ret += getRandMessage((
+        { msg : "today"            , weight : 4 },
+        { msg : "this fine morning", weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand] + "."
-
-    return ret
+    return ret + "."
 
 def getPrayer():
-    messages = (
-        "You will be praying for",
-        "You get to pray for",
-        "Please pray for",
-    )
+    ret = getRandMessage((
+        { msg : "You will be praying for", weight : 1 },
+        { msg : "You get to pray for"    , weight : 1 },
+        { msg : "Please pray for"        , weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret = messages[rand] + " "
+    ret += " "
 
-    messages = (
-        "your family",
-        "your friends",
-        "america",
-        "the world",
-        "your coworkers",
-        "your spouse",
-        "your spiritual well-being",
-        "your church",
-    )
+    ret += getRandMessage((
+        { msg : "your family"              , weight : 1 },
+        { msg : "your friends"             , weight : 1 },
+        { msg : "America"                  , weight : 1 },
+        { msg : "the world"                , weight : 1 },
+        { msg : "your coworkers"           , weight : 1 },
+        { msg : "your spouse"              , weight : 1 },
+        { msg : "your spiritual well-being", weight : 1 },
+        { msg : "your church"              , weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand] + " "
+    ret += " "
 
-    messages = (
-        "today",
-        "this fine morning",
-    )
+    ret += getRandMessage((
+        { msg : "today"            , weight : 4 },
+        { msg : "this fine morning", weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand] + "."
-
-    return ret
+    return ret + "."
 
 def getMedia():
-    messages = (
-        "Media day!",
-        "It's media day!",
-        "Happy media day!",
-    )
+    ret = getRandMessage((
+        { msg : "Media day!"      , weight : 1 },
+        { msg : "It's media day!" , weight : 1 },
+        { msg : "Happy media day!", weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret = messages[rand] + " "
+    ret += " "
 
-    messages = (
-        "Please ",
-        "",
-    )
+    tmp = getRandMessage((
+        { msg : "Please ", weight : 1 },
+        { msg : ""       , weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand]
+    needslc = True if tmp == "Please " else False
+    ret += tmp
 
-    messages = (
-        "Pick",
-        "Choose",
-        "Select",
-    )
+    tmp = getRandMessage((
+        { msg : "Pick"  , weight : 1 },
+        { msg : "Choose", weight : 1 },
+        { msg : "Select", weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand] + " "
+    if needslc: tmp = tmp.lower()
+    ret += tmp + " "
 
     ret += "a good podcast/video/song and listen to/watch it.";
 
     return ret
 
 def getDeed():
-    messages = (
-        "Do something nice for",
-        "Do a good deed for",
-    )
+    ret = getRandMessage((
+        { msg : "Do something nice for", weight : 1 },
+        { msg : "Do a good deed for"   , weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret = messages[rand] + " "
+    ret += " "
 
-    messages = (
-        "your spouse",
-        "a coworker",
-        "a stranger",
-        "a friend",
-        "a family member",
-    )
+    ret += getRandMessage((
+        { msg : "your spouse"    , weight : 2 },
+        { msg : "a coworker"     , weight : 2 },
+        { msg : "a stranger"     , weight : 1 },
+        { msg : "a friend"       , weight : 2 },
+        { msg : "a family member", weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand] + " "
-
-    ret += "today."
-
-    return ret
+    return ret + " today."
 
 def getSabbath():
-    messages = (
-        "Sabbath day!",
-        "Today is your sabbath!",
-        "Today is your sabbath day!",
-        "Day of rest!",
-    )
+    ret = getRandMessage((
+        { msg : "Sabbath day!"              , weight : 1 },
+        { msg : "Today is your sabbath!"    , weight : 1 },
+        { msg : "Today is your sabbath day!", weight : 1 },
+        { msg : "Day of rest!"              , weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret = messages[rand] + " "
+    ret += " "
 
-    messages = (
-        "Sleep in",
-        "Go play pokemon",
-        "Make a special breakfast",
-    )
+    ret += getRandMessage((
+        { msg : "Sleep in"                , weight : 1 },
+        { msg : "Go play pokemon"         , weight : 1 },
+        { msg : "Make a special breakfast", weight : 1 },
+        { msg : "Make coffee"             , weight : 1 },
+    ))
 
-    rand = randint(0, len(messages)-1)
-    ret += messages[rand] + " "
-
-    ret += "or something."
-
-    return ret
+    return ret + " or something."
 
 # Helper method to getReading. It's at the bottom intentionally.
 def getChapter():
@@ -314,4 +292,34 @@ def err(msg):
     sys.stderr.write("ERROR: " + msg + "\n")
     sys.exit(1)
 
-main(sys.argv[1:])
+#
+# This could have used lists/tuples instead of dictionaries but dictionaries
+# make it easier to change I think.
+#
+# Example testing of this function:
+#
+# import JesusTexting
+# tod = ({'message': 0, 'weight': 1}, {'message': 1, 'weight': 1})
+# res=[0,0]
+# for i in range(0,1000):
+#     res[JesusTexting.getRandMessage(tod)] += 1
+# print(res)
+#
+def getRandMessage(messages):
+    # Get the sum of all weights.
+    total_weight = 0
+
+    for message in messages:
+        total_weight += message[weight]
+
+    # Pick a random weight.
+    rand_weight = randint(1, total_weight)
+
+    # Go through the tuple again and figure out which message to return.
+    for message in messages:
+        rand_weight -= message[weight]
+        if rand_weight <= 0: return message[msg]
+
+###############################################################################
+if __name__ == "__main__":
+    main(sys.argv[1:])

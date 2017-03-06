@@ -20,7 +20,7 @@ If you use this service you will recieve 7 texts with the following items to do 
 ### Main setup
 1. `mkdir ~/JesusTexting`
 1. Add `JesusTexting.py` and `JTSetup.sh` to the above directory
-1. Edit the `PhoneNumber` line in JesusTexting.py to the phone number you want to text
+1. Edit the `PhoneNumber` or `TopicArn` or `TargetArn` line in JesusTexting.py to the phone number/topic you want to send the message to
 1. Edit your crontab with `crontab -e` and add the following lines:
 
         needs
