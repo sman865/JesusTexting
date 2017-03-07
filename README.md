@@ -13,19 +13,20 @@ If you use this service you will recieve 7 texts with the following items to do 
 ## Setup/Dependencies
 * python3
 * [boto3](https://github.com/boto/boto3). Use their installation instructions or just `pip install boto3`
-* A linux server that supports cron
+* A linux server that supports cron (could implement differently so this is somewhat optional)
 * An Amazon AWS account
 
 ## Instructions
 ### Main setup
-1. `mkdir ~/JesusTexting`
+1. `mkdir ~/git/JesusTexting`
+1. `git clone <this repo>`
 1. Add `JesusTexting.py` and `JTSetup.sh` to the above directory
 1. Edit the `PhoneNumber` or `TopicArn` or `TargetArn` line in JesusTexting.py to the phone number/topic you want to send the message to
 1. Edit your crontab with `crontab -e` and add the following lines:
 
-        needs
-        to be
-        added
+        0 20 * * Sun /home/<USER>/git/JesusTexting/weekly_setup.sh >/home/<USER>/git/JesusTexting/current_order
+        0 6 * * * /home/<USER>/git/JesusTexting/daily.sh
+
 1. You should now receive daily texts. The order will be randomized each Sunday night.
 
 ### AWS setup example (you just need these two files in ~/.aws)
